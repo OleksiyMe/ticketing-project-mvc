@@ -1,6 +1,5 @@
 package com.cydeo.service.impl;
 
-import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.service.UserService;
 
@@ -8,6 +7,10 @@ import java.util.List;
 
 public class UserServiceImpl extends AbstractMapService<UserDTO, String>  implements UserService {
 
+
+    public UserServiceImpl() {
+        super(roleService);
+    }
 
     @Override
     public UserDTO save(UserDTO object) {

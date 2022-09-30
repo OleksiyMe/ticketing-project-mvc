@@ -1,13 +1,20 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.service.RoleService;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public abstract class AbstractMapService <T,ID>{
 
+
+
     public Map<ID,T> map = new HashMap<>(); //DB
+
 
     T save(ID id,T object){
         map.put(id,object);
