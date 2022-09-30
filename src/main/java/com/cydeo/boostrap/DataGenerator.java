@@ -1,15 +1,18 @@
-package com.cydeo.bootstrap;
+package com.cydeo.boostrap;
 
 import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Gender;
+import org.springframework.boot.CommandLineRunner;
+
+import org.springframework.stereotype.Component;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+
 
 @Component
 public class DataGenerator implements CommandLineRunner {
+
 
     private final RoleService roleService;
     private final UserService userService;
@@ -19,25 +22,17 @@ public class DataGenerator implements CommandLineRunner {
         this.userService = userService;
     }
 
-
     @Override
     public void run(String... args) throws Exception {
 
-        //This run method will be executed first before application
-
-        RoleDTO adminRole = new RoleDTO(1L, "Admin");
-        RoleDTO managerRole = new RoleDTO(1L, "Manager");
-        RoleDTO employeeRole = new RoleDTO(1L, "Employee");
+        RoleDTO adminRole = new RoleDTO(1L,"Admin");
+        RoleDTO managerRole = new RoleDTO(2L,"Manager");
+        RoleDTO employeeRole = new RoleDTO(3L,"Employee");
 
 
         roleService.save(adminRole);
         roleService.save(managerRole);
         roleService.save(employeeRole);
-
-        //Create some roles and put in the DB(map)
-
-
-        //Create some users and put in the DB
 
         UserDTO user1 = new UserDTO("John", "Kesy",
                 "john@cydeo.com", "Abc1", true, "7459684532", managerRole, Gender.MALE);
@@ -64,6 +59,8 @@ public class DataGenerator implements CommandLineRunner {
         userService.save(user6);
         userService.save(user7);
         userService.save(user8);
+
+
 
     }
 }
