@@ -61,7 +61,7 @@ public class UserController {
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") UserDTO user){
-
+  //      public String updateUser( UserDTO user){    can be put this way
         userService.update(user);
         return "redirect:/user/create";
     }
