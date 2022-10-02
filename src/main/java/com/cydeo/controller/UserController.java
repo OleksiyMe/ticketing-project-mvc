@@ -1,6 +1,5 @@
 package com.cydeo.controller;
 
-import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Gender;
 import org.springframework.stereotype.Controller;
@@ -27,18 +26,15 @@ public class UserController {
         UserDTO userDTO = new UserDTO();
         userDTO.setGender(Gender.MALE);
 
-
         model.addAttribute("user", userDTO);
-
         model.addAttribute("roles", roleService.findAll());
-
         model.addAttribute("users", userService.findAll());
 
         return "/user/create";
     }
 
 
-    @PostMapping("/save")
+    @PostMapping("/create")
     public String insertUser(@ModelAttribute("user") UserDTO user) {
 
         userService.save(user);
@@ -60,13 +56,22 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") UserDTO user){
-  //      public String updateUser( UserDTO user){    can be put this way
+    public String updateUser(@ModelAttribute("user") UserDTO user) {
+        //      public String updateUser( UserDTO user){    can be put this way
         userService.update(user);
         return "redirect:/user/create";
     }
 
 
+
+
+
+   @GetMapping("/delete/{username}")
+    public String deleteUser(@PathVariable String username, Model model) {
+        userService.deleteById(username);
+
+        return "redirect:/user/create";
+    }
 
 
 }
