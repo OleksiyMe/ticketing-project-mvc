@@ -1,10 +1,11 @@
 package com.cydeo.controller;
 
+import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
+import com.cydeo.enums.Gender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 
@@ -14,23 +15,50 @@ public class UserController {
 
     private final RoleService roleService;
     private final UserService userService;
+
     public UserController(RoleService roleService, UserService userService) {
         this.roleService = roleService;
         this.userService = userService;
     }
 
-
     @GetMapping("/create")
-    public String createUser(Model model){
+    public String createUser(Model model) {
 
-        model.addAttribute("user",new UserDTO());
+        UserDTO userDTO = new UserDTO();
+        userDTO.setGender(Gender.MALE);
 
-        model.addAttribute("roles",roleService.findAll());
-        model.addAttribute("users",userService.findAll());
+
+        model.addAttribute("user", userDTO);
+
+        model.addAttribute("roles", roleService.findAll());
+
+        model.addAttribute("users", userService.findAll());
 
         return "/user/create";
     }
 
 
+    @PostMapping("/save")
+    public String insertUser(@ModelAttribute("user") UserDTO user) {
+
+        userService.save(user);
+
+        return "redirect:/user/create";
+
+    }
+
+    @GetMapping("/update")
+    public String editUser(@PathVariable String username, Model model) {
+
+
+        model.addAttribute("user", userService.findById(username));
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("users", roleService.findAll());
+
+
+        return "/user/update";
+    }
+
 
 }
+
