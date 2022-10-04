@@ -1,17 +1,31 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.TaskDTO;
+import com.cydeo.dto.UserDTO;
+import com.cydeo.enums.Status;
 import com.cydeo.service.CrudService;
 import com.cydeo.service.TaskService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl extends AbstractMapService<TaskDTO, Long> implements TaskService {
     @Override
     public TaskDTO save(TaskDTO task) {
-        return super.save(task.getId(), task);
+
+        if(task.getTaskStatus() == null)
+            task.setTaskStatus(Status.OPEN);
+        if(task.getAssignedDate() == null)
+            task.setAssignedDate(LocalDate.now());
+
+        if(task.getId()==null)
+            task.setId(UUID.randomUUID().getMostSignificantBits());
+
+        return super.save(task.getId(),task);
     }
 
     @Override
@@ -31,6 +45,26 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO, Long> implement
 
     @Override
     public void update(TaskDTO task) {
-        super.update(task.getId(), task);
+
+       /* if(task.getTaskStatus() == null)
+            task.setTaskStatus(Status.OPEN);
+        if(task.getAssignedDate() == null)
+            task.setAssignedDate(LocalDate.now());
+*/
+
+        TaskDTO fountTask = findById(task.getId());
+
+        task.setTaskStatus(fountTask.getTaskStatus());
+        task.setAssignedDate(fountTask.getAssignedDate());
+
+
+        super.update(task.getId(),task);
+    }
+
+    @Override
+    public List<TaskDTO> findTasksByManager(UserDTO manager) {
+        return findAll().stream()
+                .filter(task -> task.getProject().getAssignedManager().equals(manager))
+                .collect(Collectors.toList());
     }
 }

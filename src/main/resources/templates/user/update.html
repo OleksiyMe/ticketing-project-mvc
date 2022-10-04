@@ -26,7 +26,7 @@
 
                             <section class="panel panel-transparent">
                                 <header class="panel-heading">
-                                    <h2 class="panel-title">User Update</h2>
+                                    <h2 class="panel-title">User Create</h2>
                                 </header>
 
                                 <div class="panel-body">
@@ -53,7 +53,7 @@
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
                                                     <label for="emailaddress" class="col-form-label">Email Address</label>
-                                                    <input id="emailaddress" type="text" placeholder="email address" th:field="*{userName}" class="form-control">
+                                                    <input id="emailaddress" type="text" placeholder="email address" th:field="*{userName}" class="form-control">>
                                                 </div>
                                             </div>
 
@@ -99,7 +99,7 @@
                                                 <div class="form-group">
                                                     <label>Choose a Role</label>
                                                     <select th:field="*{role}" name="role" class="custom-select">
-                                                        <!--                                                        <option th:value="''" th:text="Select"></option>-->
+<!--                                                        <option th:value="''" th:text="Select"></option>-->
                                                         <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.description}"></option>
                                                     </select>
                                                 </div>
@@ -109,7 +109,7 @@
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-12">
                                                 <div class="float-right">
-                                                    <button type="submit" class="btn btn-success">Update</button>
+                                                    <button type="submit" class="btn btn-success">Save</button>
                                                 </div>
                                             </div>
                                         </div>
