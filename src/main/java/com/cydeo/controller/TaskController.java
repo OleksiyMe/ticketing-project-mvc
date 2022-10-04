@@ -3,6 +3,7 @@ package com.cydeo.controller;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
+import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
@@ -18,6 +19,7 @@ public class TaskController {
     private final UserService userService;
 
     private final TaskService taskService;
+
     public TaskController(ProjectService projectService, UserService userService, TaskService taskService) {
         this.projectService = projectService;
         this.userService = userService;
@@ -25,7 +27,7 @@ public class TaskController {
     }
 
     @GetMapping("/create")
-    public String taskCreate(Model model){
+    public String taskCreate(Model model) {
         model.addAttribute("task", new TaskDTO());
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("employees", userService.findEmployees());
@@ -35,7 +37,7 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-public String insertTask(@ModelAttribute TaskDTO task){
+    public String insertTask(@ModelAttribute TaskDTO task) {
 
         taskService.save(task);
 
@@ -43,9 +45,8 @@ public String insertTask(@ModelAttribute TaskDTO task){
     }
 
 
-
     @GetMapping("/delete/{id}")
-    public String deleteTask(@PathVariable Long id){
+    public String deleteTask(@PathVariable Long id) {
 
         taskService.deleteById(id);
 
@@ -54,7 +55,7 @@ public String insertTask(@ModelAttribute TaskDTO task){
 
 
     @GetMapping("/update/{taskId}")
-    public String editTask(@PathVariable("taskId") Long taskId, Model model){
+    public String editTask(@PathVariable("taskId") Long taskId, Model model) {
 
         model.addAttribute("task", taskService.findById(taskId));
         model.addAttribute("projects", projectService.findAll());
@@ -74,11 +75,55 @@ public String insertTask(@ModelAttribute TaskDTO task){
     }*/
 
     @PostMapping("/update/{ID}")
-    public String updateTask1(TaskDTO task){
+    public String updateTask1(TaskDTO task) {
 
 
         taskService.save(task);
         return "redirect:/task/create";
     }
+
+    @GetMapping("/employee/pending-tasks")
+    public String employeePendingTasks(Model model) {
+
+        model.addAttribute("tasks",
+                taskService.findAllTasksByStatusIsNot(Status.COMPLETE));
+
+
+        return "/task/pending-tasks";
+    }
+
+
+    @GetMapping("/employee/archive")
+    public String employeeArciveTasks(Model model) {
+
+        model.addAttribute("tasks",
+                taskService.findAllTasksByStatus(Status.COMPLETE));
+
+
+        return "/task/archive";
+    }
+
+    @GetMapping("/employee/edit/{id}")
+    public String employeeEditTask(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("task", taskService.findById(id));
+       /* model.addAttribute("projects", projectService.findAll());
+
+        model.addAttribute("employees", userService.findEmployees());*/
+        model.addAttribute("statuses", Status.values());
+        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETE));
+
+
+
+        return "/task/status-update";
+    }
+
+@PostMapping("/employee/update/{id}")
+    public String employeeUpdateTask(TaskDTO task){
+
+        taskService.updateStatus(task);
+
+        return "redirect:/task/employee/pending-tasks";
+}
+
 
 }
