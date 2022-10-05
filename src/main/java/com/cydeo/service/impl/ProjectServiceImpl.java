@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> implements ProjectService {
-
+public class ProjectServiceImpl extends AbstractMapService<ProjectDTO,String> implements ProjectService {
 
     private final TaskService taskService;
 
@@ -28,6 +27,7 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
             project.setProjectStatus(Status.OPEN);
 
         return super.save(project.getProjectCode(),project);
+
     }
 
     @Override
@@ -48,6 +48,7 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
         }
 
         super.update(object.getProjectCode(),object);
+
     }
 
     @Override
@@ -57,9 +58,7 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
 
     @Override
     public void complete(ProjectDTO project) {
-
         project.setProjectStatus(Status.COMPLETE);
-
     }
 
     @Override
@@ -71,7 +70,6 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
                         .filter(project -> project.getAssignedManager().equals(manager))  //John
                         .map(project ->{
 
-
                             List<TaskDTO> taskList = taskService.findTasksByManager(manager);
 
                             int completeTaskCounts = (int) taskList.stream().filter(t -> t.getProject().equals(project) && t.getTaskStatus() == Status.COMPLETE).count();
@@ -80,14 +78,13 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
                             project.setCompleteTaskCounts(completeTaskCounts);
                             project.setUnfinishedTaskCounts(unfinishedTaskCounts);
 
-
                             return project;
 
                         })
-
-
                         .collect(Collectors.toList());
+
         return projectList;
+
     }
 
 }
