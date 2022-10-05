@@ -24,13 +24,13 @@ public class UserDTO {
     private String userName;
 
     @NotBlank
-    @Pattern(regexp = "(?=.\\d)(?=.[a-z])(?=.*[A-Z]).{4,}")
+   // @Pattern(regexp = "(?=.\\d)(?=.[a-z])(?=.*[A-Z]).{4,}")
     private String passWord;
 
     private boolean enabled;
 
     @NotBlank
-    @Pattern(regexp = "^\\d{10}$")  //10 chars,only numbers
+  //  @Pattern(regexp = "^\\d{10}$")  //10 chars,only numbers
     private String phone;
 
     @NotNull
