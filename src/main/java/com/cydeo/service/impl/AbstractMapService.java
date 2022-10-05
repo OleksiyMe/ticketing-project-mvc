@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractMapService <T,ID> {
+public abstract class AbstractMapService <T,ID>{
 
     public Map<ID,T> map = new HashMap<>(); //DB
 
@@ -19,6 +19,7 @@ public abstract class AbstractMapService <T,ID> {
     }
 
     T findById(ID id){
+
         return map.get(id);
     }
 

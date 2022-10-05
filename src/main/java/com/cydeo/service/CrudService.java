@@ -4,10 +4,12 @@ import java.util.List;
 
 public interface CrudService<T,ID> {
 
-    T save(T obj);
+    T save(T object);
     T findById(ID id);
     List<T> findAll();
     void deleteById(ID id);
-    void update(T obj);
+    void update(T object);
+
 
 }
+
